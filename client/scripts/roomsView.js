@@ -23,7 +23,7 @@ var RoomsView = {
       RoomsView.$select.append(RoomsView.createRoomOption(room));
     }
 
-    RoomsView.$select.change(MessagesView.filterMessages);
+    RoomsView.$select.change(RoomsView.changeRoom);
     RoomsView.render(data);
 
     // RoomsView.$select.RoomsView.$button.on('click', Rooms.add);
@@ -34,6 +34,12 @@ var RoomsView = {
       value: roomName,
       text: roomName
     });
+  },
+
+  changeRoom: async function(event) {
+    let data = await Parse.readAll();
+    MessagesView.clearMessages();
+    RoomsView.render(data);
   },
 
   render: function(data) {
@@ -50,7 +56,10 @@ var RoomsView = {
         if (Messages.allMessages[i].roomname === roomName) {
           msgs.push(Messages.allMessages[i]);
         }
-      } else {
+      } else if (
+        Messages.allMessages[i].username &&
+        Messages.allMessages[i].text
+      ) {
         msgs.push(Messages.allMessages[i]);
       }
     }

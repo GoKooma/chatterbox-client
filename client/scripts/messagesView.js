@@ -32,10 +32,9 @@ var MessagesView = {
     }
   },
 
-  filterMessages: function(event) {
+  clearMessages: function() {
     MessagesView.$chats.empty();
     Messages.renderCount = 0;
-    MessagesView.updateMessages();
   },
 
   isNewMessage: function(targetMessage) {
