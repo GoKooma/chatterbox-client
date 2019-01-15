@@ -1,5 +1,4 @@
 describe('chatterbox', function() {
-
   describe('ajax behavior', function() {
     var ajaxSpy;
 
@@ -17,7 +16,10 @@ describe('chatterbox', function() {
         Parse.create({});
         expect($.ajax.calledOnce).to.be.true;
         // sinon.spy method `args` comes in the form [function calls][arguments from that call]
-        ajaxOptions = typeof $.ajax.args[0][0] === 'object' ? $.ajax.args[0][0] : $.ajax.args[0][1];
+        ajaxOptions =
+          typeof $.ajax.args[0][0] === 'object'
+            ? $.ajax.args[0][0]
+            : $.ajax.args[0][1];
         expect(ajaxOptions.type).to.equal('POST');
         done();
       });
@@ -30,7 +32,10 @@ describe('chatterbox', function() {
         };
 
         Parse.create(message);
-        ajaxOptions = typeof $.ajax.args[0][0] === 'object' ? $.ajax.args[0][0] : $.ajax.args[0][1];
+        ajaxOptions =
+          typeof $.ajax.args[0][0] === 'object'
+            ? $.ajax.args[0][0]
+            : $.ajax.args[0][1];
         expect(ajaxOptions.data).to.be.a('string');
         expect(ajaxOptions.contentType).to.equal('application/json');
         done();
@@ -44,23 +49,27 @@ describe('chatterbox', function() {
         };
 
         Parse.create(message);
-        ajaxOptions = typeof $.ajax.args[0][0] === 'object' ? $.ajax.args[0][0] : $.ajax.args[0][1];
+        ajaxOptions =
+          typeof $.ajax.args[0][0] === 'object'
+            ? $.ajax.args[0][0]
+            : $.ajax.args[0][1];
         var sentMessage = JSON.parse(ajaxOptions.data);
         expect(sentMessage).to.deep.equal(message);
         done();
       });
-
     });
 
     describe('fetching', function() {
       it('should submit a GET request via $.ajax', function(done) {
         Parse.readAll();
         expect($.ajax.calledOnce).to.be.true;
-        ajaxUrl = typeof $.ajax.args[0][0] === 'string' ? $.ajax.args[0][0] : $.ajax.args[0][0].url;
+        ajaxUrl =
+          typeof $.ajax.args[0][0] === 'string'
+            ? $.ajax.args[0][0]
+            : $.ajax.args[0][0].url;
         expect(ajaxUrl).to.equal(Parse.server);
         done();
       });
-
     });
   });
 
@@ -79,7 +88,6 @@ describe('chatterbox', function() {
       RoomsView.renderRoom('superLobby');
       expect($('#rooms select').children().length).to.equal(1);
     });
-
   });
 
   describe('events', function() {
@@ -92,7 +100,9 @@ describe('chatterbox', function() {
         text: 'I didn\'t get a harumph outa that guy.!',
         roomname: 'lobby'
       });
-      $('#chats').find('.username').trigger('click');
+      $('#chats')
+        .find('.username')
+        .trigger('click');
       expect(Friends.toggleStatus.called).to.be.true;
 
       Friends.toggleStatus.restore();
@@ -104,7 +114,9 @@ describe('chatterbox', function() {
       window.prompt = sinon.stub().returns('testroom');
 
       App.initialize();
-      $('#rooms').find('button').trigger('click');
+      $('#rooms')
+        .find('button')
+        .trigger('click');
       expect(Rooms.add.called).to.be.true;
 
       window.prompt = prompt;

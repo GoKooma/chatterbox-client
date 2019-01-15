@@ -1,6 +1,7 @@
 var Parse = {
-
-  server: `http://parse.${window.CAMPUS}.hackreactor.com/chatterbox/classes/messages`,
+  server: `http://parse.${
+    window.CAMPUS
+  }.hackreactor.com/chatterbox/classes/messages`,
 
   create: function(message, successCB, errorCB = null) {
     // todo: save a message to the server
@@ -10,12 +11,16 @@ var Parse = {
       type: 'POST',
       data: JSON.stringify(message),
       contentType: 'application/json',
-      success: successCB || function(data) {
-        console.log(data);
-      },
-      error: errorCB || function(error) {
-        console.error('chatterbox: Failed to create message', error);
-      }
+      success:
+        successCB ||
+        function(data) {
+          console.log(data);
+        },
+      error:
+        errorCB ||
+        function(error) {
+          console.error('chatterbox: Failed to create message', error);
+        }
     });
   },
 
@@ -26,10 +31,11 @@ var Parse = {
       data: { order: '-createdAt' },
       contentType: 'application/json',
       success: successCB,
-      error: errorCB || function(error) {
-        console.error('chatterbox: Failed to fetch messages', error);
-      }
+      error:
+        errorCB ||
+        function(error) {
+          console.error('chatterbox: Failed to fetch messages', error);
+        }
     });
   }
-
 };

@@ -1,5 +1,4 @@
 var MessagesView = {
-
   $chats: $('#chats'),
 
   initialize: function() {
@@ -11,8 +10,6 @@ var MessagesView = {
     //   });
     //   MessagesView.render();
     // });
-    
-    
   },
 
   render: function() {
@@ -22,27 +19,29 @@ var MessagesView = {
     Messages.renderCount = Messages.messageStore.length;
   },
 
-  updateMessages: function(){
+  updateMessages: function() {
     // fetch all the data from the server
     Parse.readAll(data => {
       // reverse order of fetched data so that oldest comes first
       data.results.reverse();
-      for(let i=0; i < data.results.length; i++){
+      for (let i = 0; i < data.results.length; i++) {
         // if the message cache does not have new message, add to cache
         let message = data.results[i];
-        if(MessagesView.isNotInMessageStore(message)){
-          
+        if (MessagesView.isNotInMessageStore(message)) {
           Messages.messageStore.push(message);
-        } 
+        }
       }
       // render messages
       MessagesView.render();
     });
   },
 
-  isNotInMessageStore: function(targetMessage){
-    return !Boolean(Messages.messageStore
-      .filter(msg => msg.objectId === targetMessage.objectId).length);
+  isNotInMessageStore: function(targetMessage) {
+    return !Boolean(
+      Messages.messageStore.filter(
+        msg => msg.objectId === targetMessage.objectId
+      ).length
+    );
   },
 
   renderMessage: function(message) {
@@ -63,5 +62,4 @@ var MessagesView = {
 
     return sanitizedMessage;
   }
-
 };

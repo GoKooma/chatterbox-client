@@ -1,4 +1,1 @@
-var Rooms = {
-
-
-};
+var Rooms = {};

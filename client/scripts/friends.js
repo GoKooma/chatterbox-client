@@ -1,10 +1,7 @@
 var Friends = {
-  friendList: {
-
-  },
+  friendList: {},
 
   toggleStatus: function(event) {
-    
     let targetFriend = $(event.target).text();
     if (!Friends.friendList[targetFriend]) {
       Friends.friendList[targetFriend] = true;
@@ -15,7 +12,6 @@ var Friends = {
           $user.addClass('friend');
         }
       });
-
     } else {
       Friends.friendList[targetFriend] = false;
       let users = Array.from($('#chats').find('.username'));
@@ -27,6 +23,4 @@ var Friends = {
       });
     }
   }
-
-
 };
