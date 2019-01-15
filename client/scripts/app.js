@@ -7,10 +7,17 @@ var App = {
     App.username = window.location.search.substr(10);
     App.startSpinner();
     let data = await Parse.readAll();
-    console.log(data);
+    // console.log(data);
     FormView.initialize(data);
     RoomsView.initialize(data);
     MessagesView.initialize(data);
+    App.stopSpinner();
+    setInterval(App.refresh, 5000);
+  },
+
+  refresh: async function() {
+    App.startSpinner();
+    await RoomsView.render();
     App.stopSpinner();
   },
 

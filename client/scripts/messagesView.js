@@ -2,19 +2,23 @@ var MessagesView = {
   $chats: $('#chats'),
 
   initialize: function(data) {
-    MessagesView.updateMessages(data);
+    // MessagesView.updateMessages(data);
   },
 
   render: function() {
-    for (let i = Messages.renderCount; i < Messages.messageStore.length; i++) {
-      MessagesView.renderMessage(Messages.messageStore[i]);
+    for (
+      let i = Messages.renderCount;
+      i < Messages.currentMessages.length;
+      i++
+    ) {
+      MessagesView.renderMessage(Messages.currentMessages[i]);
     }
-    Messages.renderCount = Messages.messageStore.length;
+    Messages.renderCount = Messages.currentMessages.length;
   },
 
   updateMessages: async function(data) {
     // fetch all the data from the server
-    if(data === undefined){
+    if (data === undefined) {
       data = await Parse.readAll();
     }
     // reverse order of fetched data so that oldest comes first
@@ -22,18 +26,21 @@ var MessagesView = {
     for (let i = 0; i < data.results.length; i++) {
       // if the message cache does not have new message, add to cache
       let message = data.results[i];
-      if (MessagesView.isNotInMessageStore(message)) {
-        Messages.messageStore.push(message);
+      if (MessagesView.isNewMessage(message)) {
+        Messages.allMessages.push(message);
       }
     }
-    // render messages
-    MessagesView.render();
-    
   },
 
-  isNotInMessageStore: function(targetMessage) {
+  filterMessages: function(event) {
+    MessagesView.$chats.empty();
+    Messages.renderCount = 0;
+    MessagesView.updateMessages();
+  },
+
+  isNewMessage: function(targetMessage) {
     return !Boolean(
-      Messages.messageStore.filter(
+      Messages.allMessages.filter(
         msg => msg.objectId === targetMessage.objectId
       ).length
     );

@@ -1,4 +1,5 @@
 var Messages = {
-  messageStore: [],
+  allMessages: [],
+  currentMessages: [],
   renderCount: 0
 };

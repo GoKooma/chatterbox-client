@@ -1,10 +1,7 @@
 var Rooms = {
-  roomList: { },
+  roomList: {},
 
-  add: function(event) {
-    let roomName = RoomsView.$select.val();
+  addRoom: function(roomName) {
     Rooms.roomList[roomName] = true;
-    RoomsView.$select.val('');
   }
-
 };
