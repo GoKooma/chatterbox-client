@@ -8,14 +8,14 @@ var FormView = {
   handleSubmit: async function(event) {
     // Stop the browser from submitting the form
     event.preventDefault();
-
+    App.startSpinner();
     let message = {};
     message.username = App.username;
     message.roomname = RoomsView.$select.val();
     message.text = $('#message').val();
-    $('#message').val('');
     await Parse.create(message);
-    MessagesView.updateMessages();
+    $('#message').val('');
+    App.refresh();
   },
 
   setStatus: function(active) {

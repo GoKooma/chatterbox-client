@@ -3,7 +3,7 @@ var Parse = {
     window.CAMPUS
   }.hackreactor.com/chatterbox/classes/messages`,
 
-  create: function(message, successCB, errorCB = null) {
+  create: function(message) {
     // todo: save a message to the server
     return $.ajax({
       // This is the url you should use to communicate with the parse API server.

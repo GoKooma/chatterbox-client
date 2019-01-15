@@ -3,7 +3,6 @@ var RoomsView = {
   $select: $('#rooms select'),
 
   initialize: function(data) {
-    //Todo implement this
     let $newRoomOption = $('<option>', {
       value: 'New Room...',
       text: 'New Room...'
@@ -20,30 +19,45 @@ var RoomsView = {
       }
     }
     for (let room in Rooms.roomList) {
-      RoomsView.$select.append(RoomsView.createRoomOption(room));
+      RoomsView.$select.append(RoomsView.optionConstructor(room));
     }
 
     RoomsView.$select.change(RoomsView.changeRoom);
     RoomsView.render(data);
 
-    // RoomsView.$select.RoomsView.$button.on('click', Rooms.add);
+    RoomsView.$button.on('click', RoomsView.handleCreateNewRoom);
   },
 
-  createRoomOption: function(roomName) {
+  optionConstructor: function(roomName) {
     return $('<option>', {
       value: roomName,
       text: roomName
     });
   },
 
-  changeRoom: async function(event) {
-    let data = await Parse.readAll();
-    MessagesView.clearMessages();
-    RoomsView.render(data);
+  handleCreateNewRoom: function(event) {
+    let newRoomName = $('#new-room').val();
+    Rooms.addRoom(newRoomName);
+    RoomsView.$select.append(RoomsView.optionConstructor(newRoomName));
+    $('#new-room').remove();
+    $('#rooms select').val(newRoomName);
+    RoomsView.changeRoom();
   },
 
-  render: function(data) {
-    MessagesView.updateMessages(data);
+  changeRoom: async function(event) {
+    let currentRoom = RoomsView.$select.find('option:selected').val();
+    if (currentRoom === 'New Room...') {
+      let newInput = $('<input type="text" name="new-room" id="new-room">');
+      $('#rooms select').after(newInput);
+    } else {
+      let data = await Parse.readAll();
+      MessagesView.clearMessages();
+      RoomsView.render(data);
+    }
+  },
+
+  render: async function(data) {
+    await MessagesView.updateMessages(data);
     let currentRoom = RoomsView.$select.find('option:selected').val();
     RoomsView.renderRoom(currentRoom);
     MessagesView.render();
