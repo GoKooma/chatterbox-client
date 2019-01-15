@@ -25,17 +25,17 @@ var Parse = {
   },
 
   readAll: function(successCB, errorCB = null) {
-    $.ajax({
+    return $.ajax({
       url: Parse.server,
       type: 'GET',
       data: { order: '-createdAt' },
-      contentType: 'application/json',
-      success: successCB,
-      error:
-        errorCB ||
-        function(error) {
-          console.error('chatterbox: Failed to fetch messages', error);
-        }
+      contentType: 'application/json'
+      // success: successCB,
+      // error:
+      //   errorCB ||
+      //   function(error) {
+      //     console.error('chatterbox: Failed to fetch messages', error);
+      //   }
     });
   }
 };

@@ -2,7 +2,11 @@ var RoomsView = {
   $button: $('#rooms button'),
   $select: $('#rooms select'),
 
-  initialize: function() {},
+  initialize: function(data) {
+    //Todo implement this
+    RoomsView.$button.on('click', Rooms.add);
+
+  },
 
   render: function() {},
 

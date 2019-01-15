@@ -3,16 +3,15 @@ var App = {
 
   username: 'anonymous',
 
-  initialize: function() {
+  initialize: async function() {
     App.username = window.location.search.substr(10);
-
-    FormView.initialize();
-    RoomsView.initialize();
-    MessagesView.initialize();
-
-    // Fetch initial batch of messages
     App.startSpinner();
-    App.fetch(App.stopSpinner);
+    let data = await Parse.readAll();
+    console.log(data);
+    FormView.initialize(data);
+    RoomsView.initialize(data);
+    MessagesView.initialize(data);
+    App.stopSpinner();
   },
 
   fetch: function(callback = () => {}) {

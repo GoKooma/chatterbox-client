@@ -1,11 +1,11 @@
 var FormView = {
   $form: $('form'),
 
-  initialize: function() {
+  initialize: function(data) {
     FormView.$form.on('submit', FormView.handleSubmit);
   },
 
-  handleSubmit: function(event) {
+  handleSubmit: async function(event) {
     // Stop the browser from submitting the form
     event.preventDefault();
 
@@ -14,7 +14,8 @@ var FormView = {
     message.roomname = RoomsView.$select.val();
     message.text = $('#message').val();
     $('#message').val('');
-    Parse.create(message, MessagesView.updateMessages);
+    await Parse.create(message);
+    MessagesView.updateMessages();
   },
 
   setStatus: function(active) {
