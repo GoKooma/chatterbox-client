@@ -1,5 +1,5 @@
 var Friends = {
-  toggleStatus: function(friend) {
+  toggleStatus: function(event) {
     
   }
 
