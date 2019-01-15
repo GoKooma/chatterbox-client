@@ -46,8 +46,8 @@ var MessagesView = {
   },
 
   renderMessage: function(message) {
-    let $message = MessageView.render(MessagesView.sanitizeMessage(message));
-    // $message.on('click', Friends.toggleStatus)
+    let $message = $(MessageView.render(MessagesView.sanitizeMessage(message)));
+    $message.find('.username').on('click', Friends.toggleStatus);
     MessagesView.$chats.prepend($message);
   },
 
