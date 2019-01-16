@@ -8,9 +8,9 @@ var App = {
     App.startSpinner();
     let data = await Parse.readAll();
     // console.log(data);
-    FormView.initialize(data);
-    RoomsView.initialize(data);
-    MessagesView.initialize(data);
+    await FormView.initialize(data);
+    await RoomsView.initialize(data);
+    await MessagesView.initialize(data);
     App.stopSpinner();
     setInterval(App.refresh, 5000);
   },
@@ -20,15 +20,6 @@ var App = {
     await RoomsView.render();
     App.stopSpinner();
   },
-
-  // fetch: function(callback = () => {}) {
-  //   Parse.readAll(data => {
-  //     // examine the response from the server request:
-  //     console.log(data);
-
-  //     callback();
-  //   });
-  // },
 
   startSpinner: function() {
     App.$spinner.show();

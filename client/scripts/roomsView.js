@@ -58,6 +58,7 @@ var RoomsView = {
   updateCurrentMessages: async function(roomName) {
     let fetched = await Parse.readRoom(roomName);
     if (fetched !== -1) {
+      fetched.results.reverse();
       Messages.currentMessages = fetched.results;
     }
   }
