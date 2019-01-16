@@ -3,16 +3,9 @@ var RoomsView = {
   $select: $('#rooms select'),
 
   initialize: function(data) {
-    let $newRoomOption = $('<option>', {
-      value: 'New Room...',
-      text: 'New Room...'
-    });
-    let $allRoomsOption = $('<option>', {
-      value: 'All Rooms',
-      text: 'All Rooms'
-    });
-    RoomsView.$select.append($allRoomsOption);
-    RoomsView.$select.append($newRoomOption);
+    //adds room options
+    RoomsView.$select.append(RoomsView.optionConstructor('All Rooms'));
+    RoomsView.$select.append(RoomsView.optionConstructor('New Room...'));
     for (let i = 0; i < data.results.length; i++) {
       if (data.results[i].roomname) {
         Rooms.addRoom(data.results[i].roomname);
@@ -21,10 +14,10 @@ var RoomsView = {
     for (let room in Rooms.roomList) {
       RoomsView.$select.append(RoomsView.optionConstructor(room));
     }
-
+    //attaches changeroom event listener
     RoomsView.$select.change(RoomsView.changeRoom);
-    RoomsView.render(data);
 
+    RoomsView.render(data);
     RoomsView.$button.on('click', RoomsView.handleCreateNewRoom);
   },
 
@@ -57,26 +50,15 @@ var RoomsView = {
   },
 
   render: async function(data) {
-    await MessagesView.updateMessages(data);
     let currentRoom = RoomsView.$select.find('option:selected').val();
-    RoomsView.renderRoom(currentRoom);
+    await RoomsView.updateCurrentMessages(currentRoom);
     MessagesView.render();
   },
 
-  renderRoom: function(roomName) {
-    let msgs = [];
-    for (let i = 0; i < Messages.allMessages.length; i++) {
-      if (roomName && roomName !== 'All Rooms') {
-        if (Messages.allMessages[i].roomname === roomName) {
-          msgs.push(Messages.allMessages[i]);
-        }
-      } else if (
-        Messages.allMessages[i].username &&
-        Messages.allMessages[i].text
-      ) {
-        msgs.push(Messages.allMessages[i]);
-      }
+  updateCurrentMessages: async function(roomName) {
+    let fetched = await Parse.readRoom(roomName);
+    if (fetched !== -1) {
+      Messages.currentMessages = fetched.results;
     }
-    Messages.currentMessages = msgs;
   }
 };

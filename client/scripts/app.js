@@ -21,14 +21,14 @@ var App = {
     App.stopSpinner();
   },
 
-  fetch: function(callback = () => {}) {
-    Parse.readAll(data => {
-      // examine the response from the server request:
-      console.log(data);
+  // fetch: function(callback = () => {}) {
+  //   Parse.readAll(data => {
+  //     // examine the response from the server request:
+  //     console.log(data);
 
-      callback();
-    });
-  },
+  //     callback();
+  //   });
+  // },
 
   startSpinner: function() {
     App.$spinner.show();

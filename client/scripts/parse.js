@@ -14,18 +14,27 @@ var Parse = {
     });
   },
 
-  readAll: function(successCB, errorCB = null) {
+  readAll: function() {
     return $.ajax({
       url: Parse.server,
       type: 'GET',
       data: { order: '-createdAt' },
       contentType: 'application/json'
-      // success: successCB,
-      // error:
-      //   errorCB ||
-      //   function(error) {
-      //     console.error('chatterbox: Failed to fetch messages', error);
-      //   }
+    });
+  },
+
+  readRoom: function(roomname) {
+    if (roomname === 'All Rooms') {
+      return Parse.readAll();
+    }
+    if (roomname === 'New Room...') {
+      return -1;
+    }
+    return $.ajax({
+      url: Parse.server,
+      type: 'GET',
+      data: { order: '-createdAt', where: { roomname } },
+      contentType: 'application/json'
     });
   }
 };

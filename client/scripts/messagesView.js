@@ -6,35 +6,25 @@ var MessagesView = {
   },
 
   render: function() {
-    for (
-      let i = Messages.renderCount;
-      i < Messages.currentMessages.length;
-      i++
-    ) {
-      MessagesView.renderMessage(Messages.currentMessages[i]);
-    }
-    Messages.renderCount = Messages.currentMessages.length;
-  },
-
-  updateMessages: async function(data) {
-    // fetch all the data from the server
-    if (data === undefined) {
-      data = await Parse.readAll();
-    }
-    // reverse order of fetched data so that oldest comes first
-    data.results.reverse();
-    for (let i = 0; i < data.results.length; i++) {
-      // if the message cache does not have new message, add to cache
-      let message = data.results[i];
-      if (MessagesView.isNewMessage(message)) {
-        Messages.allMessages.push(message);
+    if (Messages.currentMessages.length) {
+      let start = 0;
+      if (Messages.mostRecentMessageID !== null) {
+        start =
+          Messages.currentMessages.find(
+            msg => msg.objectId === Messages.mostRecentMessageID
+          ) + 1;
       }
+      for (let i = start; i < Messages.currentMessages.length; i++) {
+        MessagesView.renderMessage(Messages.currentMessages[i]);
+      }
+      Messages.mostRecentMessageID =
+        Messages.currentMessages[Messages.currentMessages.length - 1].objectId;
     }
   },
 
   clearMessages: function() {
     MessagesView.$chats.empty();
-    Messages.renderCount = 0;
+    Messages.mostRecentMessageID = null;
   },
 
   isNewMessage: function(targetMessage) {

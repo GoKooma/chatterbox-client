@@ -1,5 +1,4 @@
 var Messages = {
-  allMessages: [],
   currentMessages: [],
-  renderCount: 0
+  mostRecentMessageID: null
 };
