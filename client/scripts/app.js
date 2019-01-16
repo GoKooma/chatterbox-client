@@ -11,6 +11,7 @@ var App = {
     await FormView.initialize(data);
     await RoomsView.initialize(data);
     await MessagesView.initialize(data);
+
     App.stopSpinner();
     setInterval(App.refresh, 5000);
   },

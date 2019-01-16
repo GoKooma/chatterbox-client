@@ -1,6 +1,7 @@
 var RoomsView = {
   $button: $('#rooms button'),
   $select: $('#rooms select'),
+  hasFocus: true,
 
   initialize: function(data) {
     //adds room options
@@ -19,6 +20,29 @@ var RoomsView = {
 
     RoomsView.render(data);
     RoomsView.$button.on('click', RoomsView.handleCreateNewRoom);
+
+    $(window).on('focusout', RoomsView.showUnreadCount);
+    $(window).on('focus', RoomsView.hideUnreadCount);
+  },
+
+  showUnreadCount: function(event) {
+    console.log('showing unread');
+    RoomsView.hasFocus = false;
+    RoomsView.updateUnreadCount();
+  },
+
+  hideUnreadCount: function(event) {
+    RoomsView.hasFocus = true;
+    MessagesView.unreadCount = 0;
+    RoomsView.updateUnreadCount();
+  },
+
+  updateUnreadCount: function() {
+    if (RoomsView.hasFocus) {
+      $('title').text('chatterbox');
+    } else {
+      $('title').text(`(${MessagesView.unreadCount}) chatterbox`);
+    }
   },
 
   optionConstructor: function(roomName) {
@@ -53,6 +77,7 @@ var RoomsView = {
     let currentRoom = RoomsView.$select.find('option:selected').val();
     await RoomsView.updateCurrentMessages(currentRoom);
     MessagesView.render();
+    RoomsView.updateUnreadCount();
   },
 
   updateCurrentMessages: async function(roomName) {

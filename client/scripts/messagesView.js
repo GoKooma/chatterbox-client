@@ -1,5 +1,6 @@
 var MessagesView = {
   $chats: $('#chats'),
+  unreadCount: 0,
 
   initialize: function(data) {
     // MessagesView.updateMessages(data);
@@ -10,13 +11,19 @@ var MessagesView = {
       let start = 0;
       if (Messages.mostRecentMessageID !== null) {
         start =
-          Messages.currentMessages.find(
+          Messages.currentMessages.findIndex(
             msg => msg.objectId === Messages.mostRecentMessageID
           ) + 1;
       }
+      let newMessageCount = 0;
+      console.log(Messages.currentMessages);
+      console.log(start);
+      console.log(Messages.currentMessages[start]);
       for (let i = start; i < Messages.currentMessages.length; i++) {
         MessagesView.renderMessage(Messages.currentMessages[i]);
+        newMessageCount++;
       }
+      MessagesView.unreadCount += newMessageCount;
       Messages.mostRecentMessageID =
         Messages.currentMessages[Messages.currentMessages.length - 1].objectId;
     }
